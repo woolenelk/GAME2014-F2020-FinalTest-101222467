@@ -3670,6 +3670,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 822469837739670776, guid: ee095ab119bcd8d4a85bee6f28238496, type: 3}
+      propertyPath: m_Volume
+      value: 0.79
+      objectReference: {fileID: 0}
     - target: {fileID: 822469837739670778, guid: ee095ab119bcd8d4a85bee6f28238496, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3718,7 +3722,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shrinking Platform
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 822469837739670777, guid: ee095ab119bcd8d4a85bee6f28238496, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ee095ab119bcd8d4a85bee6f28238496, type: 3}
 --- !u!1001 &355927735
 PrefabInstance:
