@@ -15,8 +15,6 @@ public class ShrinkingPlatformController : MonoBehaviour
     bool movingUP;
     [SerializeField]
     AudioSource shrinking;
-    [SerializeField]
-    AudioSource reseting;
 
 
 
@@ -47,12 +45,12 @@ public class ShrinkingPlatformController : MonoBehaviour
             if (newY < startingPos.y - 0.1f)
                 movingUP = !movingUP;
         }
-
-        if (isActive)
+        Vector3 temp = transform.localScale;
+        if (isActive && temp.x > 0)
         {
             _Shrink();
         }
-        else
+        else if (!isActive && temp.x < 1)
         {
             _GrowToOriginalSize();
         }
@@ -61,6 +59,10 @@ public class ShrinkingPlatformController : MonoBehaviour
 
     private void _Shrink()
     {
+        if (Time.frameCount % 100 == 0)
+        {
+            shrinking.Play();
+        }
         Vector3 temp = transform.localScale;
         temp.x = Mathf.Max(0.0f, Mathf.Lerp(transform.localScale.x, -0.5f, Time.deltaTime / 3.0f));
         if (temp.x == 0) // if stays 0 player cannot trigger on collisionexit to set isactive=false
@@ -74,7 +76,6 @@ public class ShrinkingPlatformController : MonoBehaviour
 
     private void _GrowToOriginalSize()
     {
-
         Vector3 temp = transform.localScale;
         temp.x = Mathf.Min(1, Mathf.Lerp(transform.localScale.x, 1.5f, Time.deltaTime / 3.0f));
 
