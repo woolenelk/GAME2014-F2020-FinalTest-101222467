@@ -66,15 +66,11 @@ public class ShrinkingPlatformController : MonoBehaviour
         if (temp.x == 0) // if stays 0 player cannot trigger on collisionexit to set isactive=false
             StartCoroutine(PauseAndSetActiveFalse());
 
+        
         Debug.Log("Shrinking to Scale: " + temp.x);
         transform.localScale = temp;
     }
 
-    IEnumerator PauseAndSetActiveFalse()
-    {
-        yield return new WaitForSeconds(0.5f);
-        isActive = false;
-    }
 
     private void _GrowToOriginalSize()
     {
@@ -84,5 +80,11 @@ public class ShrinkingPlatformController : MonoBehaviour
 
         Debug.Log("Growing to Scale: " + temp.x);
         transform.localScale = temp;
+    }
+
+    IEnumerator PauseAndSetActiveFalse()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isActive = false;
     }
 }

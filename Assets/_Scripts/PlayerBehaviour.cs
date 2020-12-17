@@ -39,7 +39,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool onRamp;
     public float rampForceFactor;
 
-    [Header("Player Abilities")] 
+    [Header("Player Abilities")]
     public int health;
     public int lives;
     public BarController healthBar;
@@ -49,10 +49,10 @@ public class PlayerBehaviour : MonoBehaviour
     public ParticleSystem dustTrail;
     public Color dustTrailColour;
 
-    [Header("Impulse Sounds")] 
+    [Header("Impulse Sounds")]
     public AudioSource[] sounds;
 
-    [Header("Screen Shake")] 
+    [Header("Screen Shake")]
     public CinemachineVirtualCamera vcam1;
     public CinemachineBasicMultiChannelPerlin perlin;
     public float shakeIntensity;
@@ -60,17 +60,17 @@ public class PlayerBehaviour : MonoBehaviour
     public float shakeTimer;
     public bool isCameraShaking;
 
-    [Header("Acorn Firing")] 
+    [Header("Acorn Firing")]
     public Transform acornSpawn;
 
-    [Header("Parenting")] 
+    [Header("Parenting")]
     public Transform parent;
 
     private Rigidbody2D m_rigidBody2D;
     private SpriteRenderer m_spriteRenderer;
     private Animator m_animator;
     private RaycastHit2D groundHit;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -134,7 +134,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         groundHit = Physics2D.CircleCast(transform.position - new Vector3(0.0f, 0.65f, 0.0f), 0.4f, Vector2.down, 0.4f, collisionGroundLayer);
 
-        
+
         isGrounded = (groundHit) ? true : false;
     }
 
@@ -215,10 +215,10 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 // jump
                 m_rigidBody2D.AddForce(Vector2.up * verticalForce);
-                m_animator.SetInteger("AnimState", (int) PlayerAnimationType.JUMP);
+                m_animator.SetInteger("AnimState", (int)PlayerAnimationType.JUMP);
                 isJumping = true;
 
-                sounds[(int) ImpulseSounds.JUMP].Play();
+                sounds[(int)ImpulseSounds.JUMP].Play();
 
                 CreateDustTrail();
             }
@@ -282,6 +282,12 @@ public class PlayerBehaviour : MonoBehaviour
             other.gameObject.GetComponent<MovingPlatformController>().isActive = true;
             transform.SetParent(other.gameObject.transform);
         }
+
+        if (other.gameObject.CompareTag("ShrinkingPlatform"))
+        {
+            other.gameObject.GetComponent<ShrinkingPlatformController>().isActive = true;
+            ///transform.SetParent(other.gameObject.transform);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)
@@ -290,6 +296,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             other.gameObject.GetComponent<MovingPlatformController>().isActive = false;
             transform.SetParent(parent);
+        }
+
+        if (other.gameObject.CompareTag("ShrinkingPlatform"))
+        {
+            other.gameObject.GetComponent<ShrinkingPlatformController>().isActive = false;
+            //transform.SetParent(parent);
         }
     }
 
@@ -310,8 +322,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         lives -= 1;
 
-        sounds[(int) ImpulseSounds.DIE].Play();
-        
+        sounds[(int)ImpulseSounds.DIE].Play();
+
         livesHUD.SetInteger("LivesState", lives);
 
         if (lives > 0)
@@ -327,7 +339,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             SceneManager.LoadScene("End");
         }
-        
+
     }
 
     public void TakeDamage(int damage)
