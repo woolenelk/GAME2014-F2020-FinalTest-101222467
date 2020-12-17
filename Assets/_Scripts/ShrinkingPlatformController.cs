@@ -58,13 +58,31 @@ public class ShrinkingPlatformController : MonoBehaviour
         }
     }
 
-    private void _GrowToOriginalSize()
-    {
-        
-    }
 
     private void _Shrink()
     {
-        
+        Vector3 temp = transform.localScale;
+        temp.x = Mathf.Max(0.0f, Mathf.Lerp(transform.localScale.x, -0.5f, Time.deltaTime / 3.0f));
+        if (temp.x == 0) // if stays 0 player cannot trigger on collisionexit to set isactive=false
+            StartCoroutine(PauseAndSetActiveFalse());
+
+        Debug.Log("Shrinking to Scale: " + temp.x);
+        transform.localScale = temp;
+    }
+
+    IEnumerator PauseAndSetActiveFalse()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isActive = false;
+    }
+
+    private void _GrowToOriginalSize()
+    {
+
+        Vector3 temp = transform.localScale;
+        temp.x = Mathf.Min(1, Mathf.Lerp(transform.localScale.x, 1.5f, Time.deltaTime / 3.0f));
+
+        Debug.Log("Growing to Scale: " + temp.x);
+        transform.localScale = temp;
     }
 }
